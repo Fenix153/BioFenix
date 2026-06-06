@@ -69,6 +69,62 @@ body {
   animation: rainbow-animation 3s linear infinite;
 }
 
+/* СТИЛИ ДЛЯ РАЗДЕЛОВ С ДРУЗЬЯМИ */
+.friends-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 25px;
+}
+.friends-group {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 15px;
+  text-align: center;
+}
+.friends-group-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1px;
+}
+.friends-list {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.friend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.friend-item:hover {
+  transform: scale(1.1);
+}
+.friend-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid white;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.2);
+}
+.friend-name {
+  font-size: 10px;
+  color: white;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
 .link-box, .music-card {background:rgba(10,10,10,0.5)!important;backdrop-filter:blur(10px);border-radius:24px;box-shadow:0 0 40px rgba(0,0,0,0.6);transition:all 0.3s ease;}
 
 @keyframes ghost-ring{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
@@ -88,7 +144,7 @@ body {
 <div class="bio-wrapper" id="bioCard">
 
   <div style="position:absolute;top:12px;right:16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:6px 14px;font-size:10px;font-family:'Orbitron',sans-serif;color:white;text-transform:uppercase;letter-spacing:0.05em;font-weight:900;box-shadow:0 0 8px rgba(255,255,255,0.15);backdrop-filter:blur(6px)">
-    Viewers: <span id="viewerCount">2</span>
+    Viewers: <span id="viewerCount">150</span>
     <script>
       function updateViewers() {
         const viewerElement = document.getElementById('viewerCount');
@@ -126,7 +182,44 @@ body {
       </div>
     </div>
 
-    <div class="location" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px">
+    <div class="friends-container">
+      
+      <div class="friends-group">
+        <div class="friends-group-title">My Best Friends</div>
+        <div class="friends-list">
+          <!-- Чтобы добавить друга, скопируй блок <a class="friend-item">...</a> -->
+          <a href="Их нет" class="friend-item">
+            <img src="bestfriend1.jpg" class="friend-avatar" alt="friend">
+            <span class="friend-name">none 1</span>
+          </a>
+          <a href="Нету" class="friend-item">
+            <img src="bestfriend2.jpg" class="friend-avatar" alt="friend">
+            <span class="friend-name">none 2</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="friends-group">
+        <div class="friends-group-title">My Friends</div>
+        <div class="friends-list">
+          <a href="baberkurvek - дс" class="friend-item">
+            <img src="friend1.jpg" class="friend-avatar" alt="friend">
+            <span class="friend-name">Андрей 3</span>
+          </a>
+          <a href="kapibara01484 - дс" class="friend-item">
+            <img src="friend2.jpg" class="friend-avatar" alt="friend">
+            <span class="friend-name">Скрипка 4</span>
+          </a>
+          <a href="spaikxuoglot228_69427 - дс" class="friend-item">
+            <img src="friend3.jpg" class="friend-avatar" alt="friend">
+            <span class="friend-name">Ваня 5</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="location" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:25px">
       <img alt="location" src="location-filled-svgrepo-com.svg" style="width:20px;height:20px;filter:drop-shadow(0 0 8px rgba(255,255,255,0.7));opacity:0.8"/>
       <div class="rainbow-text">Novorossiysk</div>
     </div>

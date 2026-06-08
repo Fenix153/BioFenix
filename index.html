@@ -143,16 +143,7 @@ body {
 <div class="bio-wrapper" id="bioCard">
 
   <div style="position:absolute;top:12px;right:16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:6px 14px;font-size:10px;font-family:'Orbitron',sans-serif;color:white;text-transform:uppercase;letter-spacing:0.05em;font-weight:900;box-shadow:0 0 8px rgba(255,255,255,0.15);backdrop-filter:blur(6px)">
-    Viewers: <span id="viewerCount">150</span>
-    <script>
-      function updateViewers() {
-        const viewerElement = document.getElementById('viewerCount');
-        let currentViewers = parseInt(viewerElement.innerText);
-        let change = Math.floor(Math.random() * 3) - 1;
-        viewerElement.innerText = Math.max(100, currentViewers + change);
-      }
-      setInterval(updateViewers, 3000);
-    </script>
+    Viewers: <span id="viewerCount">Загрузка...</span>
   </div>
 
   <div class="card">
@@ -235,17 +226,49 @@ body {
 
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 <script>
-const card=document.getElementById('bioCard');
-card.addEventListener('mousemove',e=>{
-  const r=card.getBoundingClientRect();
-  const x=e.clientX-r.left;
-  const y=e.clientY-r.top;
-  const cx=r.width/2;
-  const cy=r.height/2;
-  card.style.transform=`rotateX(${-(y-cy)/20}deg) rotateY(${(x-cx)/20}deg) scale(1.02)`;
-});
-card.addEventListener('mouseleave',()=>{card.style.transform='rotateX(0deg) rotateY(0deg) scale(1)'});
+  const firebaseConfig = {
+    apiKey: "AIzaSyDliFQL9Qr7YQ3wZNY7SAmKSXaPQtVE868",
+    authDomain: "fenixbio-a7232.firebaseapp.com",
+    databaseURL: "https://fenixbio-a7232-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "fenixbio-a7232",
+    storageBucket: "fenixbio-a7232.firebasestorage.app",
+    messagingSenderId: "1009148282342",
+    appId: "1:1009148282342:web:badf753494b867dadd4227",
+    measurementId: "G-NFCC1W96JC"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  database.ref('logs').push({
+    timestamp: firebase.database.ServerValue.TIMESTAMP,
+    userAgent: navigator.userAgent
+  });
+
+  const viewsRef = database.ref('total_views');
+  viewsRef.transaction((currentViews) => {
+    return (currentViews || 0) + 1;
+  });
+
+  viewsRef.on('value', (snapshot) => {
+    const count = snapshot.val();
+    document.getElementById('viewerCount').innerText = count || 0;
+  });
+
+  const card=document.getElementById('bioCard');
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=e.clientX-r.left;
+    const y=e.clientY-r.top;
+    const cx=r.width/2;
+    const cy=r.height/2;
+    card.style.transform=`rotateX(${-(y-cy)/20}deg) rotateY(${(x-cx)/20}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='rotateX(0deg) rotateY(0deg) scale(1)'});
 </script>
 
 </body>

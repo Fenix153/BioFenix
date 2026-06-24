@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Bio: Fenix норм?</title>
+<title>Bio: Fenix</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Orbitron:wght@400;900&display=swap" rel="stylesheet"/>
 <style>
 body {
   margin:0;
@@ -17,6 +17,7 @@ body {
   gap:24px;
   perspective:1000px;
   background:black;
+  overflow-x: hidden;
 }
 .video-bg {
   position:fixed;
@@ -28,10 +29,12 @@ body {
   z-index:-1;
 }
 .bio-wrapper {
+  position: relative;
   transition:transform 0.15s ease;
   transform-style:preserve-3d;
   width:100%;
   max-width:720px;
+  will-change: transform;
 }
 .card, .block {
   background: rgba(255, 255, 255, 0.1);
@@ -39,6 +42,7 @@ body {
   border-radius: 24px;
   padding: 32px;
   width: 100%;
+  box-sizing: border-box;
   box-shadow: 0 0 40px rgba(0,0,0,0.6);
   transition: all 0.3s ease;
   margin-bottom: 24px;
@@ -124,7 +128,13 @@ body {
   opacity: 0.8;
 }
 
-.link-box, .music-card {background:rgba(10,10,10,0.5)!important;backdrop-filter:blur(10px);border-radius:24px;box-shadow:0 0 40px rgba(0,0,0,0.6);transition:all 0.3s ease;}
+.link-box, .music-card {
+  background:rgba(10,10,10,0.5) !important; 
+  backdrop-filter:blur(10px);
+  border-radius:24px;
+  box-shadow:0 0 40px rgba(0,0,0,0.6);
+  transition:all 0.3s ease;
+}
 
 .discord-card {
   background: rgba(88, 101, 242, 0.15) !important;
@@ -162,7 +172,6 @@ body {
 }
 
 @keyframes ghost-ring{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-@keyframes pulse{0%{text-shadow:0 0 4px rgba(255,255,255,0.6)}50%{text-shadow:0 0 12px rgba(255,255,255,1)}100%{text-shadow:0 0 4px rgba(255,255,255,0.6)}}
 @keyframes rainbow-animation {
   0% { background-position: 0% center; }
   100% { background-position: 200% center; }
@@ -318,228 +327,3 @@ body {
 }
 .skill-badge--java { border-color: rgba(244, 67, 54, 0.4); }
 .skill-badge--cpp { border-color: rgba(33, 150, 243, 0.4); }
-.skill-badge--csharp { border-color: rgba(156, 39, 176, 0.4); }
-.skill-badge--python { border-color: rgba(255, 193, 7, 0.4); }
-.skill-badge--js { border-color: rgba(255, 235, 59, 0.35); }
-.skill-badge--kotlin { border-color: rgba(233, 30, 99, 0.4); }
-.services-note {
-  text-align: center;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
-  margin: 4px 0 0;
-  font-style: italic;
-}
-</style>
-</head>
-<body>
-
-<video class="video-bg" autoplay muted loop playsinline>
-  <source src="фон.mp4" type="video/mp4">
-</video>
-
-<div class="bio-wrapper" id="bioCard">
-
-  <div style="position:absolute;top:12px;right:16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:6px 14px;font-size:10px;font-family:'Orbitron',sans-serif;color:white;text-transform:uppercase;letter-spacing:0.05em;font-weight:900;box-shadow:0 0 8px rgba(255,255,255,0.15);backdrop-filter:blur(6px)">
-    Viewers: <span id="viewerCount">Загрузка...</span>
-  </div>
-
-  <div class="card">
-    <div class="banner"></div>
-    <div class="ghost-container">
-      <div class="ghost-ring"></div>
-      <div class="avatar"></div>
-    </div>
-    <div class="username">Fenix</div>
-
-    <div class="tag-buttons">
-      <div class="tag-button">DEVELOPER</div>
-      <div class="tag-button">Student</div>
-    </div>
-
-    <div class="tags">
-      <div style="text-align:center;line-height:1.6;font-size:0.92rem;font-family:'Orbitron',sans-serif;border-radius:12px;padding:10px 16px;white-space:pre-line;letter-spacing:0.03em;font-weight:900;color:white">
-        I'M 14 YEARS OLD
-
-        I JUNIOR C++/C# DEVELOPER /
-
-       Мой дс: fenexsis
-       Если я вам чем-то не угодил — не нужно ходить вокруг. Скажите прямо, в лицо, без игры в молчанки и намёки. 
-       Мне нужна ваша правда, 
-       какой бы горькой она ни была. 
-       Одна очень уставшая тень решила отделиться от тела
-      </div>
-    </div>
-
-    <div class="friends-container">
-      
-      <div class="friends-group">
-        <div class="friends-group-title">My Best Friends</div>
-        <div class="friends-list">
-          <a href="https://discord.com/users/1145961638168645692" class="friend-item">
-            <img src="bestfriend.png" class="friend-avatar" alt="CkRiPkA">
-            <span class="friend-name">❤️‍🔥 Скрипка ❤️‍🔥</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="friends-group">
-        <div class="friends-group-title">My Friends</div>
-        <div class="friends-list">
-          
-          <a href="https://discord.com/users/1445813219078832209" class="friend-item">
-            <img src="friend1.png" class="friend-avatar" alt="Певазик">
-            <span class="friend-name">Андрей</span>
-          </a>
-
-          <a href="https://discord.com/users/1281124638256009299" class="friend-item">
-            <img src="friend2.png" class="friend-avatar" alt="Ваня">
-            <span class="friend-name">Ваня</span>
-          </a>
-          <a href="https://discord.com/users/1328733447757365411" class="friend-item">
-            <img src="friend3.png" class="friend-avatar" alt="AkaZloy">
-            <span class="friend-name">Илья</span>
-          </a>
-
-        </div>
-      </div>
-
-    </div>
-
-    <div class="location" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:25px">
-      <img alt="location" src="location-filled-svgrepo-com.svg" style="width:20px;height:20px;filter:drop-shadow(0 0 8px rgba(255,255,255,0.7));opacity:0.8"/>
-      <div class="rainbow-text">Novorossiysk</div>
-    </div>
-  </div>
-
-  <div class="block music-card" style="text-align: center; padding: 24px;">
-    <strong style="font-size: 18px;">fake ur face</strong><br/>
-    <small style="opacity: 0.8;">Исполнитель: s0rrow</small>
-    <br/><br/>
-    <audio controls style="width: 100%; max-width: 480px; outline: none; border-radius: 10px;">
-      <source src="s0rrow - fake ur face.ogg" type="audio/ogg">
-      Ваш браузер не поддерживает воспроизведение аудио.
-    </audio>
-  </div>
-
-  <!-- НОВЫЙ БЛОК: ССЫЛКА НА ДИСКОРД СЕРВЕР -->
-  <a href="https://discord.gg/yjGZrRqkx" target="_blank" class="block discord-card">
-    <div style="font-size: 32px; margin-bottom: 10px;">💬</div>
-    <strong style="font-size: 20px;">Хочешь пообщаться или найти тимейта?</strong><br/>
-    <small style="opacity: 0.8;">Залетай на мой Discord сервер, буду рад всем!</small>
-    <br/>
-    <div class="discord-btn">Присоединиться 🚀</div>
-  </a>
-
-</div>
-
-<section class="services-section" aria-label="Услуги и навыки">
-  <div class="services-wrapper">
-
-    <div class="section-header">
-      <h2 class="section-title rainbow-text">Услуги и цены</h2>
-      <p class="section-subtitle">Разработка под ключ — от простых задач до сложных проектов</p>
-    </div>
-
-    <div class="services-grid">
-
-      <article class="service-card">
-        <div class="service-icon service-icon--minecraft">⛏</div>
-        <h3 class="service-name">Плагины Minecraft</h3>
-        <p class="service-desc">Разработка плагинов под ваши задачи — от простых механик до сложных систем</p>
-        <span class="service-price">200 – 10 000 ₽</span>
-      </article>
-
-      <article class="service-card">
-        <div class="service-icon service-icon--discord">🤖</div>
-        <h3 class="service-name">Discord-каналы с кастомными ботами</h3>
-        <p class="service-desc">Каналы с ботами, написанными под ваши пожелания</p>
-        <span class="service-price">100 – 5 000 ₽</span>
-      </article>
-
-      <article class="service-card">
-        <div class="service-icon service-icon--discord">⚙</div>
-        <h3 class="service-name">Discord-каналы с настроенными ботами</h3>
-        <p class="service-desc">Готовые боты с профессиональной настройкой под ваш сервер</p>
-        <span class="service-price">150 – 2 500 ₽</span>
-      </article>
-
-      <article class="service-card">
-        <div class="service-icon service-icon--discord">💬</div>
-        <h3 class="service-name">Discord-каналы без ботов</h3>
-        <p class="service-desc">Структура, оформление и настройка каналов</p>
-        <span class="service-price">75 – 350 ₽</span>
-      </article>
-
-      <article class="service-card service-card--wide">
-        <div class="service-icon service-icon--web">🌐</div>
-        <h3 class="service-name">Сайты</h3>
-        <p class="service-desc">Лендинги, портфолио, веб-приложения — любая сложность и масштаб</p>
-        <span class="service-price">2 500 – 500 000 ₽</span>
-      </article>
-
-    </div>
-
-    <p class="services-note">* Итоговая стоимость зависит от сложности и объёма работ</p>
-
-    <div class="skills-block">
-      <h2 class="section-title skills-title rainbow-text">Навыки и языки</h2>
-      <div class="skills-grid">
-        <span class="skill-badge skill-badge--java">Java</span>
-        <span class="skill-badge skill-badge--cpp">C++</span>
-        <span class="skill-badge skill-badge--csharp">C#</span>
-        <span class="skill-badge skill-badge--python">Python</span>
-        <span class="skill-badge skill-badge--js">JavaScript</span>
-        <span class="skill-badge skill-badge--kotlin">Kotlin</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDliFQL9Qr7YQ3wZNY7SAmKSXaPQtVE868",
-    authDomain: "fenixbio-a7232.firebaseapp.com",
-    databaseURL: "https://fenixbio-a7232-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "fenixbio-a7232",
-    storageBucket: "fenixbio-a7232.firebasestorage.app",
-    messagingSenderId: "1009148282342",
-    appId: "1:1009148282342:web:badf753494b867dadd4227",
-    measurementId: "G-NFCC1W96JC"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-
-  database.ref('logs').push({
-    timestamp: firebase.database.ServerValue.TIMESTAMP,
-    userAgent: navigator.userAgent
-  });
-
-  const viewsRef = database.ref('total_views');
-  viewsRef.transaction((currentViews) => {
-    return (currentViews || 0) + 1;
-  });
-
-  viewsRef.on('value', (snapshot) => {
-    const count = snapshot.val();
-    document.getElementById('viewerCount').innerText = count || 0;
-  });
-
-  const card=document.getElementById('bioCard');
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=e.clientX-r.left;
-    const y=e.clientY-r.top;
-    const cx=r.width/2;
-    const cy=r.height/2;
-    card.style.transform=`rotateX(${-(y-cy)/20}deg) rotateY(${(x-cx)/20}deg) scale(1.02)`;
-  });
-  card.addEventListener('mouseleave',()=>{card.style.transform='rotateX(0deg) rotateY(0deg) scale(1)'});
-</script>
-
-</body>
-</html>

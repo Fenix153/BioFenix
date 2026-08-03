@@ -31,6 +31,7 @@
     color:var(--text);
     background:var(--bg);
     min-height:100vh;
+    scroll-behavior: smooth;
   }
 
   video.video-bg{
@@ -42,17 +43,19 @@
     z-index:-2;
     opacity:0.35;
     filter:saturate(0.6) blur(1px);
-.video-bg-overlay{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background:
-    radial-gradient(1100px 600px at 15% -10%, rgba(227,165,72,0.08), transparent 60%),
-    radial-gradient(900px 500px at 100% 10%, rgba(95,201,184,0.06), transparent 55%),
-    rgba(20,22,27,0.45);
-}
+  } /* ЗДЕСЬ БЫЛА ОШИБКА (не закрыта скобка) */
 
-  a{color:inherit;}
+  .video-bg-overlay{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background:
+      radial-gradient(1100px 600px at 15% -10%, rgba(227,165,72,0.08), transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, rgba(95,201,184,0.06), transparent 55%),
+      rgba(20,22,27,0.45);
+  }
+
+  a{color:inherit; text-decoration:none; transition: all 0.2s ease;}
 
   .app{
     max-width:960px;
@@ -79,11 +82,13 @@
   }
   .dots{display:flex;gap:6px;flex-shrink:0;}
   .dots span{width:10px;height:10px;border-radius:50%;display:block;}
-  .dots span:nth-child(1){background:#5d5f66;}
-  .dots span:nth-child(2){background:#5d5f66;}
-  .dots span:nth-child(3){background:#5d5f66;}
+  .dots span:nth-child(1){background:#ff5f56;} /* Цвета macOS для стиля */
+  .dots span:nth-child(2){background:#ffbd2e;}
+  .dots span:nth-child(3){background:#27c93f;}
+  
   .chrome-path{color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .chrome-path b{color:var(--text);font-weight:500;}
+  
   .watchers{
     margin-left:auto;
     display:flex;
@@ -102,6 +107,7 @@
     display:grid;
     grid-template-columns:170px 1fr;
   }
+  
   @media (max-width:640px){
     .body-grid{grid-template-columns:1fr;}
     .sidebar{
@@ -110,6 +116,15 @@
       overflow-x:auto;
       border-right:none;
       border-top:1px solid var(--line);
+      padding:10px 0;
+    }
+    .sidebar a{
+        padding:8px 12px;
+        border-left:none;
+        border-bottom:2px solid transparent;
+    }
+    .sidebar a.active{
+        border-bottom-color:var(--amber);
     }
   }
 
@@ -128,13 +143,10 @@
     font-family:'JetBrains Mono',monospace;
     font-size:12.5px;
     color:var(--text-dim);
-    text-decoration:none;
     border-left:2px solid transparent;
     white-space:nowrap;
   }
   .sidebar a:hover{color:var(--text);background:rgba(255,255,255,0.03);}
-  .sidebar a:focus-visible{outline:2px solid var(--amber);outline-offset:-2px;}
-  .sidebar a .tick{color:var(--text-faint);}
   .sidebar a.active{color:var(--amber);border-left-color:var(--amber);background:rgba(227,165,72,0.06);}
 
   .content{padding:28px 30px 36px;min-width:0;}
@@ -192,7 +204,6 @@
     animation:blink 1.1s steps(1) infinite;
     transform:translateY(3px);
   }
-  @media (prefers-reduced-motion:reduce){.cursor{animation:none;opacity:0.7;}}
   @keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
 
   .status-line{
@@ -248,7 +259,6 @@
     padding:16px 12px;
     text-align:right;
     color:var(--text-faint);
-    background:rgba(0,0,0,0.0);
     border-right:1px solid var(--line);
     user-select:none;
   }
@@ -257,6 +267,7 @@
   .code .str{color:var(--amber);}
   .code .prose{color:var(--text);font-family:'Inter',sans-serif;font-size:13.5px;}
   .code .quote{color:var(--teal);font-family:'Inter',sans-serif;font-style:italic;font-size:13.5px;}
+  
   .yaml{
     font-family:'JetBrains Mono',monospace;
     font-size:13px;
@@ -268,12 +279,12 @@
   .yaml-key{color:var(--violet);}
   .yaml-list{margin:8px 0 14px 0;}
   .yaml-list:last-child{margin-bottom:0;}
+  
   .friend-line{
     display:flex;
     align-items:center;
     gap:10px;
     padding:5px 0 5px 18px;
-    text-decoration:none;
     color:var(--text-dim);
   }
   .friend-line:hover .friend-name{color:var(--amber);}
@@ -320,10 +331,9 @@
     border:1px solid rgba(88,101,242,0.3);
     border-radius:8px;
     padding:18px 20px;
-    text-decoration:none;
-    transition:border-color 0.2s ease, background 0.2s ease;
+    transition:all 0.2s ease;
   }
-  .discord-cta:hover{background:rgba(88,101,242,0.14);border-color:rgba(88,101,242,0.55);}
+  .discord-cta:hover{background:rgba(88,101,242,0.14);border-color:rgba(88,101,242,0.55); transform: translateY(-2px);}
   .discord-glyph{
     width:40px;height:40px;
     border-radius:8px;
@@ -376,6 +386,7 @@
   }
   .import-line .kw{color:var(--violet);}
   .import-line .str{color:var(--amber);}
+  
   .skills-grid{display:flex;flex-wrap:wrap;gap:8px;}
   .skill-badge{
     font-family:'JetBrains Mono',monospace;
@@ -413,7 +424,6 @@
 
 <div class="app">
   <div class="window">
-
     <div class="chrome">
       <div class="dots"><span></span><span></span><span></span></div>
       <div class="chrome-path"><b>fenix</b> — profile.bio</div>
@@ -421,7 +431,6 @@
     </div>
 
     <div class="body-grid">
-
       <nav class="sidebar">
         <a href="#profile" class="active"><span class="tick">›</span>profile.md</a>
         <a href="#about"><span class="tick">›</span>about.md</a>
@@ -433,7 +442,6 @@
       </nav>
 
       <div class="content">
-
         <section id="profile">
           <div class="profile-row">
             <div class="avatar-frame"><div class="avatar"></div></div>
@@ -473,7 +481,7 @@
           <div class="yaml">
             <span class="yaml-key">best_friend:</span>
             <div class="yaml-list">
-              <a href="https://discord.com/users/1145961638168645692" class="friend-line">
+              <a href="https://discord.com/users/1145961638168645692" class="friend-line" target="_blank">
                 <span class="dash">-</span>
                 <img src="bestfriend.png" class="friend-avatar" alt="Скрипка">
                 <span class="friend-name">Скрипка</span>
@@ -482,17 +490,17 @@
             </div>
             <span class="yaml-key">friends:</span>
             <div class="yaml-list">
-              <a href="https://discord.com/users/1445813219078832209" class="friend-line">
+              <a href="https://discord.com/users/1445813219078832209" class="friend-line" target="_blank">
                 <span class="dash">-</span>
                 <img src="friend1.png" class="friend-avatar" alt="Андрей">
                 <span class="friend-name">Андрей</span>
               </a>
-              <a href="https://discord.com/users/1281124638256009299" class="friend-line">
+              <a href="https://discord.com/users/1281124638256009299" class="friend-line" target="_blank">
                 <span class="dash">-</span>
                 <img src="friend0.png" class="friend-avatar" alt="Нету">
                 <span class="friend-name">Нету</span>
               </a>
-              <a href="https://discord.com/users/1328733447757365411" class="friend-line">
+              <a href="https://discord.com/users/1328733447757365411" class="friend-line" target="_blank">
                 <span class="dash">-</span>
                 <img src="friend3.png" class="friend-avatar" alt="Илья">
                 <span class="friend-name">Илья</span>
@@ -571,7 +579,6 @@
             <span class="skill-badge skill-badge--kotlin"><b>Kotlin</b></span>
           </div>
         </section>
-
       </div>
     </div>
   </div>
@@ -595,6 +602,7 @@
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
   const viewsRef = database.ref('total_views');
+  
   viewsRef.transaction((currentViews) => (currentViews || 0) + 1);
   viewsRef.on('value', (snapshot) => {
     document.getElementById('viewerCount').innerText = snapshot.val() || 0;
@@ -602,16 +610,28 @@
 
   const sections = [...document.querySelectorAll('section[id]')];
   const navLinks = [...document.querySelectorAll('.sidebar a')];
+  
+  let isScrolling = false;
   const onScroll = () => {
-    let current = sections[0]?.id;
-    for (const s of sections) {
-      if (s.getBoundingClientRect().top < 120) current = s.id;
+    if (!isScrolling) {
+      window.requestAnimationFrame(() => {
+        let current = sections[0]?.id;
+        for (const s of sections) {
+          if (s.getBoundingClientRect().top < 120) {
+            current = s.id;
+          }
+        }
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+        isScrolling = false;
+      });
     }
-    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    isScrolling = true;
   };
+
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 </script>
 
 </body>
 </html>
+```

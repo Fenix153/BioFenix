@@ -31,7 +31,7 @@
     color:var(--text);
     background:var(--bg);
     min-height:100vh;
-    scroll-behavior: smooth;
+    overflow-x: hidden; /* Чтобы ничего не вылезало за края экрана */
   }
 
   video.video-bg{
@@ -41,21 +41,21 @@
     height:100%;
     object-fit:cover;
     z-index:-2;
-    opacity:0.35;
+    opacity:0.4; /* Увеличил прозрачность, чтобы было видно */
     filter:saturate(0.6) blur(1px);
-  } /* ЗДЕСЬ БЫЛА ОШИБКА (не закрыта скобка) */
-
+  }
+  
   .video-bg-overlay{
     position:fixed;
     inset:0;
     z-index:-1;
     background:
       radial-gradient(1100px 600px at 15% -10%, rgba(227,165,72,0.08), transparent 60%),
-      radial-gradient(900px 500px at 100% 10%, rgba(95,201,184,0.06), transparent 55%),
-      rgba(20,22,27,0.45);
+      radial-gradient(900px 500px at 100% 10%, rgba(95,201,184,0.05), transparent 55%),
+      rgba(20, 22, 27, 0.6); /* Заменил var(--bg) на полупрозрачный цвет */
   }
 
-  a{color:inherit; text-decoration:none; transition: all 0.2s ease;}
+  a{color:inherit; text-decoration:none;}
 
   .app{
     max-width:960px;
@@ -69,7 +69,10 @@
     border-radius:12px;
     overflow:hidden;
     box-shadow:0 24px 60px rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
   }
+
   .chrome{
     display:flex;
     align-items:center;
@@ -79,16 +82,15 @@
     border-bottom:1px solid var(--line);
     font-family:'JetBrains Mono',monospace;
     font-size:12px;
+    flex-shrink: 0;
   }
   .dots{display:flex;gap:6px;flex-shrink:0;}
   .dots span{width:10px;height:10px;border-radius:50%;display:block;}
-  .dots span:nth-child(1){background:#ff5f56;} /* Цвета macOS для стиля */
+  .dots span:nth-child(1){background:#ff5f56;}
   .dots span:nth-child(2){background:#ffbd2e;}
   .dots span:nth-child(3){background:#27c93f;}
-  
   .chrome-path{color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .chrome-path b{color:var(--text);font-weight:500;}
-  
   .watchers{
     margin-left:auto;
     display:flex;
@@ -118,13 +120,13 @@
       border-top:1px solid var(--line);
       padding:10px 0;
     }
-    .sidebar a{
-        padding:8px 12px;
-        border-left:none;
-        border-bottom:2px solid transparent;
+    .sidebar a {
+      padding: 8px 15px;
+      border-left:none;
+      border-bottom: 2px solid transparent;
     }
-    .sidebar a.active{
-        border-bottom-color:var(--amber);
+    .sidebar a.active {
+      border-bottom-color: var(--amber);
     }
   }
 
@@ -145,11 +147,15 @@
     color:var(--text-dim);
     border-left:2px solid transparent;
     white-space:nowrap;
+    transition: 0.2s;
   }
   .sidebar a:hover{color:var(--text);background:rgba(255,255,255,0.03);}
   .sidebar a.active{color:var(--amber);border-left-color:var(--amber);background:rgba(227,165,72,0.06);}
 
-  .content{padding:28px 30px 36px;min-width:0;}
+  .content{
+    padding:28px 30px 36px;
+    min-width:0; /* Важно для того, чтобы грид не ломался от длинного текста */
+  }
   @media (max-width:640px){.content{padding:22px 18px 30px;}}
 
   section{margin-bottom:40px;scroll-margin-top:16px;}
@@ -259,6 +265,7 @@
     padding:16px 12px;
     text-align:right;
     color:var(--text-faint);
+    background:rgba(0,0,0,0.15);
     border-right:1px solid var(--line);
     user-select:none;
   }
@@ -267,7 +274,7 @@
   .code .str{color:var(--amber);}
   .code .prose{color:var(--text);font-family:'Inter',sans-serif;font-size:13.5px;}
   .code .quote{color:var(--teal);font-family:'Inter',sans-serif;font-style:italic;font-size:13.5px;}
-  
+
   .yaml{
     font-family:'JetBrains Mono',monospace;
     font-size:13px;
@@ -279,7 +286,6 @@
   .yaml-key{color:var(--violet);}
   .yaml-list{margin:8px 0 14px 0;}
   .yaml-list:last-child{margin-bottom:0;}
-  
   .friend-line{
     display:flex;
     align-items:center;
@@ -331,9 +337,9 @@
     border:1px solid rgba(88,101,242,0.3);
     border-radius:8px;
     padding:18px 20px;
-    transition:all 0.2s ease;
+    transition:0.2s ease;
   }
-  .discord-cta:hover{background:rgba(88,101,242,0.14);border-color:rgba(88,101,242,0.55); transform: translateY(-2px);}
+  .discord-cta:hover{background:rgba(88,101,242,0.14);border-color:rgba(88,101,242,0.55);}
   .discord-glyph{
     width:40px;height:40px;
     border-radius:8px;
@@ -386,7 +392,6 @@
   }
   .import-line .kw{color:var(--violet);}
   .import-line .str{color:var(--amber);}
-  
   .skills-grid{display:flex;flex-wrap:wrap;gap:8px;}
   .skill-badge{
     font-family:'JetBrains Mono',monospace;
@@ -424,6 +429,7 @@
 
 <div class="app">
   <div class="window">
+
     <div class="chrome">
       <div class="dots"><span></span><span></span><span></span></div>
       <div class="chrome-path"><b>fenix</b> — profile.bio</div>
@@ -431,6 +437,7 @@
     </div>
 
     <div class="body-grid">
+
       <nav class="sidebar">
         <a href="#profile" class="active"><span class="tick">›</span>profile.md</a>
         <a href="#about"><span class="tick">›</span>about.md</a>
@@ -442,6 +449,7 @@
       </nav>
 
       <div class="content">
+
         <section id="profile">
           <div class="profile-row">
             <div class="avatar-frame"><div class="avatar"></div></div>
@@ -579,6 +587,7 @@
             <span class="skill-badge skill-badge--kotlin"><b>Kotlin</b></span>
           </div>
         </section>
+
       </div>
     </div>
   </div>
@@ -602,7 +611,6 @@
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
   const viewsRef = database.ref('total_views');
-  
   viewsRef.transaction((currentViews) => (currentViews || 0) + 1);
   viewsRef.on('value', (snapshot) => {
     document.getElementById('viewerCount').innerText = snapshot.val() || 0;
@@ -610,28 +618,16 @@
 
   const sections = [...document.querySelectorAll('section[id]')];
   const navLinks = [...document.querySelectorAll('.sidebar a')];
-  
-  let isScrolling = false;
   const onScroll = () => {
-    if (!isScrolling) {
-      window.requestAnimationFrame(() => {
-        let current = sections[0]?.id;
-        for (const s of sections) {
-          if (s.getBoundingClientRect().top < 120) {
-            current = s.id;
-          }
-        }
-        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
-        isScrolling = false;
-      });
+    let current = sections[0]?.id;
+    for (const s of sections) {
+      if (s.getBoundingClientRect().top < 120) current = s.id;
     }
-    isScrolling = true;
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
   };
-
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 </script>
 
 </body>
 </html>
-```

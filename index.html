@@ -40,18 +40,17 @@
     height:100%;
     object-fit:cover;
     z-index:-2;
-    opacity:0.14;
+    opacity:0.35;
     filter:saturate(0.6) blur(1px);
-  }
-  .video-bg-overlay{
-    position:fixed;
-    inset:0;
-    z-index:-1;
-    background:
-      radial-gradient(1100px 600px at 15% -10%, rgba(227,165,72,0.06), transparent 60%),
-      radial-gradient(900px 500px at 100% 10%, rgba(95,201,184,0.05), transparent 55%),
-      var(--bg);
-  }
+.video-bg-overlay{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(1100px 600px at 15% -10%, rgba(227,165,72,0.08), transparent 60%),
+    radial-gradient(900px 500px at 100% 10%, rgba(95,201,184,0.06), transparent 55%),
+    rgba(20,22,27,0.45);
+}
 
   a{color:inherit;}
 
@@ -249,7 +248,7 @@
     padding:16px 12px;
     text-align:right;
     color:var(--text-faint);
-    background:rgba(0,0,0,0.15);
+    background:rgba(0,0,0,0.0);
     border-right:1px solid var(--line);
     user-select:none;
   }

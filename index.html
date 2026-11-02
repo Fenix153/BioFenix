@@ -484,6 +484,62 @@
   .person-link:hover{background:rgba(88,101,242,0.16);border-color:rgba(88,101,242,0.65);}
   .person-link span{color:var(--discord);}
 
+  /* цветовые темы страниц друзей */
+  #friend-view{--accent:var(--amber);--accent-soft:rgba(227,165,72,0.35);}
+  #friend-view[data-theme="rose"]  {--accent:var(--rose);  --accent-soft:rgba(216,120,138,0.4);}
+  #friend-view[data-theme="teal"]  {--accent:var(--teal);  --accent-soft:rgba(95,201,184,0.4);}
+  #friend-view[data-theme="violet"]{--accent:var(--violet);--accent-soft:rgba(164,138,221,0.4);}
+  #friend-view .avatar-frame::before,
+  #friend-view .avatar-frame::after{border-color:var(--accent);}
+  #friend-view .back:hover{color:var(--accent);}
+  #friend-view .person-role{color:var(--accent);border-color:var(--accent-soft);}
+  #friend-view .filetag{color:var(--accent);opacity:0.75;}
+  #friend-view .filetag::before{border-color:var(--accent);}
+
+  /* форма аватара у каждого своя */
+  #friend-view[data-theme="rose"]   .avatar-frame img,
+  #friend-view[data-theme="rose"]   .avatar-frame .avatar-letter{border-radius:50%;}
+  #friend-view[data-theme="teal"]   .avatar-frame img,
+  #friend-view[data-theme="teal"]   .avatar-frame .avatar-letter{border-radius:2px;}
+
+  /* Скрипка — нумерованный топ */
+  .top-list{list-style:none;margin:0 0 4px;padding:0;border-top:1px solid var(--line);}
+  .top-list li{
+    display:flex;align-items:baseline;gap:20px;
+    padding:16px 2px;
+    border-bottom:1px solid var(--line);
+  }
+  .top-n{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;
+    font-size:40px;
+    line-height:1;
+    min-width:34px;
+    color:var(--accent);
+  }
+  .top-t{font-size:22px;font-weight:600;}
+
+  /* Damp3we — крупная цитата */
+  .big-quote{
+    margin:4px 0 0;
+    padding:6px 0 6px 22px;
+    border-left:3px solid var(--accent);
+    font-size:clamp(24px,4.6vw,36px);
+    font-weight:600;
+    line-height:1.25;
+    letter-spacing:-0.01em;
+  }
+
+  /* Recorz — текст песни */
+  .lyrics{margin:0;padding:2px 0 2px 18px;border-left:1px dashed var(--accent-soft);}
+  .lyrics p{
+    margin:0 0 6px;
+    font-size:17px;
+    line-height:1.5;
+    color:var(--text-dim);
+  }
+  .lyrics p:last-child{margin-bottom:0;color:var(--text);}
+
   footer.foot{
     text-align:center;
     font-family:'JetBrains Mono',monospace;
@@ -569,8 +625,8 @@
           <div class="music-file">
             <div class="music-icon">♪ MP3</div>
             <div class="music-meta">
-              <div class="music-title">Faster n Harde</div>
-              <div class="music-artist">6arelyhuman</div>
+              <div class="music-title">Вайбкодинг писателя</div>
+              <div class="music-artist">Fenix</div>
               <audio controls>
                 <source src="mymusic.mp3" type="audio/mpeg">
                 Ваш браузер не поддерживает воспроизведение аудио.
@@ -672,25 +728,38 @@
   // Чтобы добавить или поменять био — правь только этот объект.
   // bio: массив строк (каждая строка — отдельная строка в блоке). Пустой массив — блок не показывается.
   const PEOPLE = {
+    // theme — цветовая схема страницы (rose / teal / violet / amber)
+    // kind — вид блока с текстом: 'top' (нумерованный список), 'quote' (крупная цитата),
+    //        'lyrics' (текст песни), 'none' (без текста)
     skripka: {
-      name: 'Скрипка', group: 'best_friend', avatar: 'bestfriend.png',
+      name: 'Скрипка', group: 'friend', avatar: 'bestfriend.png',
       discord: 'https://discord.com/users/1145961638168645692',
-      bio: []
+      theme: 'rose', kind: 'top', file: 'top.txt',
+      lines: ['мама', 'Standoff 2']
     },
     damp3we: {
       name: 'Damp3we', group: 'best_friend', avatar: 'friend1.png',
       discord: 'https://discord.com/users/1445813219078832209',
-      bio: []
+      theme: 'teal', kind: 'quote', file: 'teammate.md',
+      lines: ['самый лучший тимейт и друг во всём мире']
     },
     netu: {
       name: 'Нету', group: 'friend', avatar: 'friend0.png',
       discord: 'https://discord.com/users/1281124638256009299',
-      bio: []
+      theme: 'amber', kind: 'none', file: '',
+      lines: []
     },
     recorz: {
       name: 'Recorz', group: 'friend', avatar: 'friend2.png',
       discord: 'https://discord.com/users/1328733447757365411',
-      bio: []
+      theme: 'violet', kind: 'lyrics', file: 'lyrics.txt',
+      lines: [
+        'я вайбкодил на мобиле',
+        'ты пишешь новый промпт',
+        'вот мы тебя и убили',
+        'убили просто',
+        'за токены похоронили'
+      ]
     }
   };
 
@@ -729,7 +798,7 @@
       a.appendChild(el('span', 'dash', '-'));
       a.appendChild(avatarNode(p, 'friend-avatar'));
       a.appendChild(el('span', 'friend-name', p.name));
-      if (key === 'best_friend' && id === 'skripka') a.appendChild(el('span', 'friend-note', '❤️‍🔥'));
+      if (id === 'skripka') a.appendChild(el('span', 'friend-note', '❤️‍🔥'));
       list.appendChild(a);
     });
     friendsList.appendChild(list);
@@ -758,19 +827,26 @@
     head.append(frame, ident);
     friendView.appendChild(head);
 
-    if (p.bio.length) {
-      friendView.appendChild(el('div', 'filetag', id + '.md'));
-      const block = el('div', 'codeblock');
-      const gutter = el('div', 'gutter');
-      p.bio.forEach((_, i) => {
-        if (i) gutter.appendChild(document.createElement('br'));
-        gutter.appendChild(document.createTextNode(String(i + 1).padStart(2, '0')));
-      });
-      const code = el('div', 'code');
-      const prose = el('span', 'prose', p.bio.join('\n'));
-      code.appendChild(prose);
-      block.append(gutter, code);
-      friendView.appendChild(block);
+    friendView.dataset.theme = p.theme;
+    friendView.dataset.kind = p.kind;
+
+    if (p.lines.length) {
+      friendView.appendChild(el('div', 'filetag', p.file));
+      if (p.kind === 'top') {
+        const list = el('ol', 'top-list');
+        p.lines.forEach((t, i) => {
+          const li = el('li');
+          li.append(el('span', 'top-n', String(i + 1)), el('span', 'top-t', t));
+          list.appendChild(li);
+        });
+        friendView.appendChild(list);
+      } else if (p.kind === 'quote') {
+        friendView.appendChild(el('blockquote', 'big-quote', p.lines.join(' ')));
+      } else if (p.kind === 'lyrics') {
+        const box = el('div', 'lyrics');
+        p.lines.forEach(t => box.appendChild(el('p', '', t)));
+        friendView.appendChild(box);
+      }
     }
 
     const links = el('div', 'person-links');

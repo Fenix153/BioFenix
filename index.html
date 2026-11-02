@@ -411,6 +411,79 @@
   .skill-badge--js b{color:#e3d158;}
   .skill-badge--kotlin b{color:var(--rose);}
 
+  .friend-avatar-fallback{
+    width:26px;height:26px;
+    border-radius:5px;
+    border:1px solid var(--line-strong);
+    background:var(--panel);
+    color:var(--text-dim);
+    display:inline-flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    flex-shrink:0;
+  }
+
+  /* страница друга */
+  #friend-view[hidden], #main-view[hidden]{display:none;}
+  .back{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    margin-bottom:22px;
+    transition:color 0.15s ease;
+  }
+  .back:hover{color:var(--amber);}
+  .person-head{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin-bottom:26px;}
+  .person-head .avatar-frame{width:104px;height:104px;}
+  .person-head .avatar-frame img,
+  .person-head .avatar-frame .avatar-letter{
+    width:100%;height:100%;
+    border-radius:8px;
+    object-fit:cover;
+    border:1px solid var(--line-strong);
+    background:var(--panel-2);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:34px;
+    color:var(--text-dim);
+  }
+  .person-name{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:28px;
+    line-height:1.1;
+  }
+  .person-role{
+    display:inline-block;
+    margin-top:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:5px 11px;
+    border-radius:5px;
+    border:1px solid var(--line-strong);
+    color:var(--text-dim);
+    background:var(--panel-2);
+  }
+  .person-role.best{color:var(--rose);border-color:rgba(216,120,138,0.4);}
+  .person-links{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;}
+  .person-link{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    padding:9px 14px;
+    border-radius:6px;
+    border:1px solid rgba(88,101,242,0.4);
+    background:rgba(88,101,242,0.08);
+    color:var(--text);
+    transition:0.2s ease;
+  }
+  .person-link:hover{background:rgba(88,101,242,0.16);border-color:rgba(88,101,242,0.65);}
+  .person-link span{color:var(--discord);}
+
   footer.foot{
     text-align:center;
     font-family:'JetBrains Mono',monospace;
@@ -432,7 +505,7 @@
 
     <div class="chrome">
       <div class="dots"><span></span><span></span><span></span></div>
-      <div class="chrome-path"><b>fenix</b> — profile.bio</div>
+      <div class="chrome-path"><b>fenix</b> — <span id="chromeFile">profile.bio</span></div>
       <div class="watchers"><span class="dot"></span><span id="viewerCount">…</span></div>
     </div>
 
@@ -449,6 +522,8 @@
       </nav>
 
       <div class="content">
+      <div id="friend-view" hidden></div>
+      <div id="main-view">
 
         <section id="profile">
           <div class="profile-row">
@@ -486,35 +561,7 @@
 
         <section id="friends">
           <div class="filetag">friends.yaml</div>
-          <div class="yaml">
-            <span class="yaml-key">best_friend:</span>
-            <div class="yaml-list">
-              <a href="https://discord.com/users/1145961638168645692" class="friend-line" target="_blank">
-                <span class="dash">-</span>
-                <img src="bestfriend.png" class="friend-avatar" alt="Скрипка">
-                <span class="friend-name">Скрипка</span>
-                <span class="friend-note">❤️‍🔥</span>
-              </a>
-            </div>
-            <span class="yaml-key">friends:</span>
-            <div class="yaml-list">
-              <a href="https://discord.com/users/1445813219078832209" class="friend-line" target="_blank">
-                <span class="dash">-</span>
-                <img src="friend1.png" class="friend-avatar" alt="Андрей">
-                <span class="friend-name">Damp3we</span>
-              </a>
-              <a href="https://discord.com/users/1281124638256009299" class="friend-line" target="_blank">
-                <span class="dash">-</span>
-                <img src="friend0.png" class="friend-avatar" alt="Нету">
-                <span class="friend-name">Нету</span>
-              </a>
-              <a href="https://discord.com/users/1328733447757365411" class="friend-line" target="_blank">
-                <span class="dash">-</span>
-                <img src="friend2.png" class="friend-avatar" alt="Илья">
-                <span class="friend-name">Recorz</span>
-              </a>
-            </div>
-          </div>
+          <div class="yaml" id="friendsList"></div>
         </section>
 
         <section id="music">
@@ -589,6 +636,7 @@
         </section>
 
       </div>
+      </div>
     </div>
   </div>
 
@@ -608,17 +656,160 @@
     appId: "1:1009148282342:web:badf753494b867dadd4227",
     measurementId: "G-NFCC1W96JC"
   };
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-  const viewsRef = database.ref('total_views');
-  viewsRef.transaction((currentViews) => (currentViews || 0) + 1);
-  viewsRef.on('value', (snapshot) => {
-    document.getElementById('viewerCount').innerText = snapshot.val() || 0;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const viewsRef = database.ref('total_views');
+    viewsRef.transaction((currentViews) => (currentViews || 0) + 1);
+    viewsRef.on('value', (snapshot) => {
+      document.getElementById('viewerCount').innerText = snapshot.val() || 0;
+    });
+  } catch (e) {
+    document.getElementById('viewerCount').innerText = '–';
+  }
+
+  // ───── люди ─────
+  // Чтобы добавить или поменять био — правь только этот объект.
+  // bio: массив строк (каждая строка — отдельная строка в блоке). Пустой массив — блок не показывается.
+  const PEOPLE = {
+    skripka: {
+      name: 'Скрипка', group: 'best_friend', avatar: 'bestfriend.png',
+      discord: 'https://discord.com/users/1145961638168645692',
+      bio: []
+    },
+    damp3we: {
+      name: 'Damp3we', group: 'best_friend', avatar: 'friend1.png',
+      discord: 'https://discord.com/users/1445813219078832209',
+      bio: []
+    },
+    netu: {
+      name: 'Нету', group: 'friend', avatar: 'friend0.png',
+      discord: 'https://discord.com/users/1281124638256009299',
+      bio: []
+    },
+    recorz: {
+      name: 'Recorz', group: 'friend', avatar: 'friend2.png',
+      discord: 'https://discord.com/users/1328733447757365411',
+      bio: []
+    }
+  };
+
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  };
+
+  // картинка с запасным вариантом: если файла нет — квадрат с первой буквой
+  const avatarNode = (p, cls) => {
+    const img = document.createElement('img');
+    img.src = p.avatar;
+    img.alt = p.name;
+    if (cls) img.className = cls;
+    img.onerror = () => {
+      const f = el('span', cls ? 'friend-avatar-fallback' : 'avatar-letter', p.name[0].toUpperCase());
+      img.replaceWith(f);
+    };
+    return img;
+  };
+
+  // список друзей
+  const friendsList = document.getElementById('friendsList');
+  const groups = [['best_friend', 'best_friend:'], ['friend', 'friends:']];
+  groups.forEach(([key, label]) => {
+    const ids = Object.keys(PEOPLE).filter(id => PEOPLE[id].group === key);
+    if (!ids.length) return;
+    friendsList.appendChild(el('span', 'yaml-key', label));
+    const list = el('div', 'yaml-list');
+    ids.forEach(id => {
+      const p = PEOPLE[id];
+      const a = el('a', 'friend-line');
+      a.href = '#/friend/' + id;
+      a.appendChild(el('span', 'dash', '-'));
+      a.appendChild(avatarNode(p, 'friend-avatar'));
+      a.appendChild(el('span', 'friend-name', p.name));
+      if (key === 'best_friend' && id === 'skripka') a.appendChild(el('span', 'friend-note', '❤️‍🔥'));
+      list.appendChild(a);
+    });
+    friendsList.appendChild(list);
   });
+
+  // страница друга
+  const mainView = document.getElementById('main-view');
+  const friendView = document.getElementById('friend-view');
+  const chromeFile = document.getElementById('chromeFile');
+
+  const renderPerson = (id) => {
+    const p = PEOPLE[id];
+    friendView.replaceChildren();
+
+    const back = el('a', 'back', '← friends.yaml');
+    back.href = '#friends';
+    friendView.appendChild(back);
+
+    const head = el('div', 'person-head');
+    const frame = el('div', 'avatar-frame');
+    frame.appendChild(avatarNode(p));
+    const ident = el('div');
+    ident.appendChild(el('div', 'person-name', p.name));
+    ident.appendChild(el('span', 'person-role' + (p.group === 'best_friend' ? ' best' : ''),
+      p.group === 'best_friend' ? 'best friend' : 'friend'));
+    head.append(frame, ident);
+    friendView.appendChild(head);
+
+    if (p.bio.length) {
+      friendView.appendChild(el('div', 'filetag', id + '.md'));
+      const block = el('div', 'codeblock');
+      const gutter = el('div', 'gutter');
+      p.bio.forEach((_, i) => {
+        if (i) gutter.appendChild(document.createElement('br'));
+        gutter.appendChild(document.createTextNode(String(i + 1).padStart(2, '0')));
+      });
+      const code = el('div', 'code');
+      const prose = el('span', 'prose', p.bio.join('\n'));
+      code.appendChild(prose);
+      block.append(gutter, code);
+      friendView.appendChild(block);
+    }
+
+    const links = el('div', 'person-links');
+    const dc = el('a', 'person-link');
+    dc.href = p.discord; dc.target = '_blank'; dc.rel = 'noopener';
+    dc.append(el('span', '', '→'), document.createTextNode(' написать в Discord'));
+    links.appendChild(dc);
+    friendView.appendChild(links);
+
+    chromeFile.textContent = id + '.bio';
+    document.title = p.name + ' — fenix.bio';
+  };
+
+  const route = () => {
+    const m = location.hash.match(/^#\/friend\/([\w-]+)/);
+    if (m && PEOPLE[m[1]]) {
+      renderPerson(m[1]);
+      mainView.hidden = true;
+      friendView.hidden = false;
+      window.scrollTo(0, 0);
+      navLinks.forEach(a => a.classList.remove('active'));
+      return;
+    }
+    const wasHidden = mainView.hidden;
+    mainView.hidden = false;
+    friendView.hidden = true;
+    chromeFile.textContent = 'profile.bio';
+    document.title = 'fenix.bio';
+    if (wasHidden) {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
+    }
+    onScroll();
+  };
 
   const sections = [...document.querySelectorAll('section[id]')];
   const navLinks = [...document.querySelectorAll('.sidebar a')];
   const onScroll = () => {
+    if (mainView.hidden) return;
     let current = sections[0]?.id;
     for (const s of sections) {
       if (s.getBoundingClientRect().top < 120) current = s.id;
@@ -626,7 +817,8 @@
     navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
   };
   document.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  window.addEventListener('hashchange', route);
+  route();
 </script>
 
 </body>
